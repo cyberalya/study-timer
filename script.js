@@ -1,49 +1,42 @@
 // ================= ELEMENT =================
 const timerEl = document.getElementById("timer");
-const options = document.getElementById("options");
-const controls = document.getElementById("controls");
-const musicInput = document.getElementById("musicInput");
+const modeContainer = document.getElementById("modeContainer");
+const controlContainer = document.getElementById("controlContainer");
+
 const currentSongEl = document.getElementById("currentSong");
 const queueListEl = document.getElementById("queueList");
 const queueContainer = document.getElementById("queueContainer");
 
-// ================= TIMER STATE =================
+const stopAlarmBtn = document.getElementById("stopAlarmBtn");
+
+// ================= TIMER =================
 let duration = 1500;
 let interval = null;
 let wasMusicPlaying = false;
 
-// ================= MUSIC STATE =================
-let queue = [];
-let currentIndex = -1;
-
-const music = new Audio();
-music.addEventListener("ended", nextSong);
-
-// ================= ALARM =================
-const alarm = new Audio(
-  "https://actions.google.com/sounds/v1/alarms/alarm_clock.ogg"
-);
-
-// ================= NOTIFICATION =================
-if ("Notification" in window && Notification.permission !== "granted") {
-  Notification.requestPermission();
-}
-
-// ================= TIMER =================
 function updateDisplay() {
   const m = Math.floor(duration / 60);
   const s = duration % 60;
   timerEl.textContent = `${m}:${s.toString().padStart(2, "0")}`;
 }
 
-function setTimer(min) {
+document.querySelectorAll(".mode-btn").forEach(btn => {
+  btn.onclick = () => {
+    duration = btn.dataset.time * 60;
+    updateDisplay();
+    modeContainer.style.display = "none";
+    controlContainer.style.display = "flex";
+    startTimer();
+  };
+});
+
+document.getElementById("resetBtn").onclick = () => {
   clearInterval(interval);
-  duration = min * 60;
+  duration = 1500;
   updateDisplay();
-  options.style.display = "none";
-  controls.style.display = "block";
-  startTimer();
-}
+  modeContainer.style.display = "flex";
+  controlContainer.style.display = "none";
+};
 
 function startTimer() {
   clearInterval(interval);
@@ -57,140 +50,85 @@ function startTimer() {
   }, 1000);
 }
 
+// ================= ALARM =================
+const alarm = new Audio(
+  "https://actions.google.com/sounds/v1/alarms/alarm_clock.ogg"
+);
+
 function timeUp() {
   wasMusicPlaying = !music.paused;
   music.pause();
 
   alarm.loop = true;
   alarm.play();
+  stopAlarmBtn.classList.remove("hidden");
 
-  if (Notification.permission === "granted") {
+  if ("Notification" in window && Notification.permission === "granted") {
     new Notification("⏰ Waktu Habis!", {
-      body: "Sesi belajar selesai. Waktunya istirahat 💆‍♀️",
+      body: "Sesi selesai. Istirahat dulu 👀"
     });
   }
 }
 
-function stopAlarm() {
+stopAlarmBtn.onclick = () => {
   alarm.pause();
   alarm.currentTime = 0;
+  stopAlarmBtn.classList.add("hidden");
 
   if (wasMusicPlaying) {
-    setTimeout(() => {
-      music.play();
-    }, 2000);
+    setTimeout(() => music.play(), 2000);
   }
-}
+};
 
-function resetTimer() {
-  clearInterval(interval);
-  duration = 1500;
-  updateDisplay();
-  options.style.display = "block";
-  controls.style.display = "none";
-}
+// ================= MUSIC =================
+let queue = [];
+let currentIndex = -1;
+const music = new Audio();
 
-// ================= MUSIC INPUT =================
-musicInput.addEventListener("change", (e) => {
-  const file = e.target.files[0];
-  if (!file) return;
+music.onended = nextSong;
 
-  queue.push({
-    name: file.name,
-    url: URL.createObjectURL(file),
-  });
-
-  if (currentIndex === -1) {
-    currentIndex = 0;
-    playSong(currentIndex);
-  }
-
-  renderQueue();
-});
-
-// ================= MUSIC CONTROL =================
-function playSong(index) {
-  if (!queue[index]) return;
-  currentIndex = index;
-  music.src = queue[index].url;
+function playSong(i) {
+  if (!queue[i]) return;
+  currentIndex = i;
+  music.src = queue[i].url;
   music.play();
-  currentSongEl.textContent = queue[index].name;
+  currentSongEl.textContent = queue[i].name;
   renderQueue();
 }
 
 function nextSong() {
-  if (queue.length === 0) return;
+  if (!queue.length) return;
   currentIndex = (currentIndex + 1) % queue.length;
   playSong(currentIndex);
 }
 
 function prevSong() {
-  if (queue.length === 0) return;
-  currentIndex =
-    (currentIndex - 1 + queue.length) % queue.length;
+  if (!queue.length) return;
+  currentIndex = (currentIndex - 1 + queue.length) % queue.length;
   playSong(currentIndex);
 }
 
-// ================= DELETE SONG =================
-function deleteSong(index) {
-  if (index === currentIndex) {
-    music.pause();
-  }
-
-  queue.splice(index, 1);
-
-  if (queue.length === 0) {
-    currentIndex = -1;
-    music.src = "";
-    currentSongEl.textContent = "Tidak ada lagu";
-  } else if (index < currentIndex) {
-    currentIndex--;
-  } else if (index === currentIndex) {
-    currentIndex = currentIndex % queue.length;
-    playSong(currentIndex);
-  }
-
-  renderQueue();
-}
-
-// ================= RENDER QUEUE =================
-function renderQueue() {
-  queueListEl.innerHTML = "";
-
-  queue.forEach((song, i) => {
-    const li = document.createElement("li");
-    li.className = "queue-item";
-
-    if (i === currentIndex) {
-      li.classList.add("active");
-    }
-
-    const title = document.createElement("span");
-    title.textContent = song.name;
-    title.onclick = () => playSong(i);
-
-    const del = document.createElement("button");
-    del.textContent = "❌";
-    del.onclick = () => deleteSong(i);
-
-    li.appendChild(title);
-    li.appendChild(del);
-    queueListEl.appendChild(li);
-  });
-}
-
-// ================= UI BUTTON =================
-document.getElementById("queueToggle").onclick = () => {
-  queueContainer.classList.toggle("hidden");
+document.getElementById("playPause").onclick = () => {
+  music.paused ? music.play() : music.pause();
 };
 
 document.getElementById("nextSong").onclick = nextSong;
 document.getElementById("prevSong").onclick = prevSong;
 
-document.getElementById("playPause").onclick = () => {
-  if (music.paused) music.play();
-  else music.pause();
+document.getElementById("queueToggle").onclick = () => {
+  queueContainer.classList.toggle("hidden");
 };
 
-// ================= INIT =================
+// ================= QUEUE =================
+function renderQueue() {
+  queueListEl.innerHTML = "";
+  queue.forEach((song, i) => {
+    const li = document.createElement("li");
+    li.className = i === currentIndex ? "active" : "";
+    li.textContent = song.name;
+    li.onclick = () => playSong(i);
+    queueListEl.appendChild(li);
+  });
+}
+
 updateDisplay();
