@@ -5,12 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Study Timer</title>
 
-  <!-- Font -->
+  <!-- Google Font -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
   <!-- CSS -->
   <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
   <div class="app">
@@ -21,22 +22,23 @@
     </div>
 
     <!-- MODE -->
-    <div class="mode-container" id="modeContainer">
-      <button class="mode-btn" data-time="15">Focus 15</button>
+    <div class="mode-container">
+      <button class="mode-btn active" data-time="15">Focus 15</button>
       <button class="mode-btn" data-time="20">Focus 20</button>
       <button class="mode-btn" data-time="25">Focus 25</button>
       <button class="mode-btn break" data-time="5">Short Break</button>
       <button class="mode-btn break" data-time="15">Long Break</button>
     </div>
 
-    <!-- CONTROL -->
-    <div class="control-container" id="controlContainer" style="display:none;">
+    <!-- TIMER CONTROLS -->
+    <div class="control-container">
       <button id="stopBtn">Stop</button>
       <button id="resetBtn">Reset</button>
     </div>
 
-    <!-- MUSIC -->
+    <!-- MUSIC PLAYER -->
     <div class="music-container">
+
       <div class="now-playing">
         🎵 <span id="currentSong">No song playing</span>
       </div>
@@ -49,14 +51,9 @@
       </div>
 
       <!-- ADD SONG -->
-      <button id="addSongBtn">＋ Add Song</button>
-      <input
-        type="file"
-        id="musicInput"
-        accept="audio/*"
-        multiple
-        hidden
-      />
+      <button id="addSongBtn">+ Add Song</button>
+      <input type="file" id="musicInput" accept="audio/*" multiple hidden>
+
     </div>
 
     <!-- QUEUE -->
@@ -71,5 +68,6 @@
 
   <!-- JS -->
   <script src="script.js"></script>
+
 </body>
 </html>
