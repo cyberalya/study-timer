@@ -1,1 +1,166 @@
-/* style nanti */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  transition: background 0.6s ease;
+}
+
+.app {
+  width: 100%;
+  max-width: 420px;
+  padding: 24px;
+  text-align: center;
+}
+
+/* TIMER */
+.timer-container {
+  margin: 40px 0 20px;
+}
+
+.timer {
+  font-size: 4.5rem;
+  font-weight: 600;
+  letter-spacing: 2px;
+}
+
+/* MODE BUTTONS */
+.mode-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  margin-bottom: 25px;
+  transition: all 0.4s ease;
+}
+
+.mode-btn {
+  padding: 10px 16px;
+  border-radius: 20px;
+  border: none;
+  background: rgba(255,255,255,0.2);
+  color: white;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+}
+
+.mode-btn:hover {
+  background: rgba(255,255,255,0.35);
+}
+
+.mode-btn.active {
+  background: white;
+  color: #333;
+  font-weight: 600;
+}
+
+/* CONTROL BUTTONS */
+.control-container {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+.control-container button {
+  padding: 12px 22px;
+  border-radius: 25px;
+  border: none;
+  background: white;
+  color: #333;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.control-container button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+}
+
+/* MUSIC */
+.music-container {
+  margin-top: 10px;
+}
+
+.now-playing {
+  font-size: 0.9rem;
+  opacity: 0.9;
+  margin-bottom: 10px;
+}
+
+.music-controls {
+  display: flex;
+  justify-content: center;
+  gap: 18px;
+}
+
+.music-controls button {
+  background: rgba(255,255,255,0.25);
+  border: none;
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  font-size: 1rem;
+  cursor: pointer;
+  color: white;
+  transition: background 0.3s ease;
+}
+
+.music-controls button:hover {
+  background: rgba(255,255,255,0.45);
+}
+
+/* QUEUE */
+.queue-container {
+  margin-top: 15px;
+  background: rgba(0,0,0,0.25);
+  border-radius: 15px;
+  padding: 10px;
+  max-height: 160px;
+  overflow-y: auto;
+  transition: all 0.4s ease;
+}
+
+.queue-container ul {
+  list-style: none;
+}
+
+.queue-container li {
+  padding: 8px;
+  font-size: 0.85rem;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.queue-container li.active {
+  background: rgba(255,255,255,0.3);
+}
+
+/* ALARM BUTTON */
+#stopAlarmBtn {
+  margin-top: 20px;
+  padding: 12px 24px;
+  border-radius: 30px;
+  border: none;
+  background: #ff4d4d;
+  color: white;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+/* UTIL */
+.hidden {
+  display: none;
+}
