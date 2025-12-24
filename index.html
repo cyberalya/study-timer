@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Study Timer</title>
 
-  <!-- Google Font -->
+  <!-- Font -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
   <!-- CSS -->
@@ -13,7 +13,6 @@
 </head>
 
 <body>
-
   <div class="app">
 
     <!-- TIMER -->
@@ -30,15 +29,14 @@
       <button class="mode-btn break" data-time="15">Long Break</button>
     </div>
 
-    <!-- TIMER CONTROLS -->
+    <!-- CONTROL -->
     <div class="control-container">
-      <button id="stopBtn">Stop</button>
-      <button id="resetBtn">Reset</button>
+      <button id="stopBtn">Start</button>
+      <button id="resetBtn" style="display:none;">Reset</button>
     </div>
 
-    <!-- MUSIC PLAYER -->
+    <!-- MUSIC -->
     <div class="music-container">
-
       <div class="now-playing">
         🎵 <span id="currentSong">No song playing</span>
       </div>
@@ -50,10 +48,8 @@
         <button id="queueToggle">☰</button>
       </div>
 
-      <!-- ADD SONG -->
       <button id="addSongBtn">+ Add Song</button>
       <input type="file" id="musicInput" accept="audio/*" multiple hidden>
-
     </div>
 
     <!-- QUEUE -->
@@ -68,6 +64,5 @@
 
   <!-- JS -->
   <script src="script.js"></script>
-
 </body>
 </html>
