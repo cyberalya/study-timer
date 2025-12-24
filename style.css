@@ -1,117 +1,126 @@
 * {
-  box-sizing: border-box;
   margin: 0;
   padding: 0;
-  font-family: 'Poppins', sans-serif;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
 }
 
 body {
   min-height: 100vh;
   background: linear-gradient(135deg, #1e3c72, #2a5298);
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
   color: white;
 }
 
 .app {
   width: 100%;
-  max-width: 420px;
-  padding: 24px;
-  border-radius: 24px;
-  background: rgba(255,255,255,0.08);
-  backdrop-filter: blur(14px);
-  box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+  max-width: 380px;
   text-align: center;
+  padding: 30px 20px;
 }
 
 /* TIMER */
-.timer-container {
-  margin-bottom: 24px;
-}
-
 .timer {
-  font-size: 4rem;
+  font-size: 64px;
   font-weight: 600;
-  letter-spacing: 2px;
+  margin-bottom: 20px;
 }
 
-/* MODE BUTTON */
+/* MODE */
 .mode-container {
   display: flex;
   flex-wrap: wrap;
-  gap: 12px;
+  gap: 10px;
   justify-content: center;
   margin-bottom: 20px;
 }
 
 .mode-btn {
-  padding: 10px 14px;
-  border-radius: 14px;
+  padding: 8px 16px;
+  border-radius: 20px;
   border: none;
+  cursor: pointer;
+  font-size: 14px;
   background: rgba(255,255,255,0.15);
   color: white;
-  cursor: pointer;
-  transition: 0.25s;
+  transition: 0.3s;
 }
 
 .mode-btn:hover {
   background: rgba(255,255,255,0.3);
 }
 
-.mode-btn.break {
-  background: rgba(255,99,99,0.3);
+.mode-btn.active {
+  background: white;
+  color: #2a5298;
+  font-weight: 600;
 }
 
-/* CONTROL */
+.mode-btn.break {
+  background: rgba(255,180,180,0.3);
+}
+
+/* CONTROLS */
 .control-container {
   display: flex;
   justify-content: center;
-  gap: 16px;
-  margin-bottom: 20px;
+  gap: 15px;
+  margin-bottom: 25px;
 }
 
 .control-container button {
-  padding: 10px 18px;
-  border-radius: 14px;
+  padding: 10px 26px;
+  border-radius: 25px;
   border: none;
   cursor: pointer;
-  font-weight: 500;
+  font-weight: 600;
   background: white;
-  color: #1e3c72;
+  color: #2a5298;
+  transition: 0.3s;
+}
+
+.control-container button:hover {
+  transform: scale(1.05);
 }
 
 /* MUSIC */
 .music-container {
-  margin-top: 10px;
+  margin-top: 20px;
 }
 
 .now-playing {
-  font-size: 0.9rem;
+  font-size: 14px;
+  margin-bottom: 10px;
   opacity: 0.9;
-  margin-bottom: 8px;
 }
 
 .music-controls {
   display: flex;
   justify-content: center;
-  gap: 14px;
+  gap: 15px;
   margin-bottom: 10px;
 }
 
 .music-controls button {
+  padding: 8px 12px;
+  border-radius: 50%;
   border: none;
+  cursor: pointer;
   background: rgba(255,255,255,0.2);
   color: white;
-  padding: 10px;
-  border-radius: 50%;
-  cursor: pointer;
+  transition: 0.3s;
 }
 
-/* ADD SONG */
+.music-controls button:hover {
+  background: rgba(255,255,255,0.4);
+}
+
 #addSongBtn {
-  padding: 8px 14px;
-  border-radius: 14px;
+  margin-top: 10px;
+  padding: 8px 18px;
+  border-radius: 20px;
   border: none;
   background: rgba(255,255,255,0.25);
   color: white;
@@ -120,9 +129,9 @@ body {
 
 /* QUEUE */
 .queue-container {
-  margin-top: 14px;
-  background: rgba(0,0,0,0.25);
-  border-radius: 14px;
+  margin-top: 20px;
+  background: rgba(0,0,0,0.3);
+  border-radius: 12px;
   padding: 10px;
 }
 
@@ -131,31 +140,35 @@ body {
 }
 
 .queue-container li {
-  padding: 8px;
-  font-size: 0.85rem;
+  padding: 6px 10px;
+  display: flex;
+  justify-content: space-between;
   cursor: pointer;
-  border-radius: 10px;
-  transition: 0.2s;
-}
-
-.queue-container li:hover {
-  background: rgba(255,255,255,0.15);
+  border-radius: 8px;
 }
 
 .queue-container li.active {
-  background: rgba(255,255,255,0.3);
+  background: rgba(255,255,255,0.25);
   font-weight: 600;
+}
+
+.queue-container li button {
+  background: none;
+  border: none;
+  color: #ffb3b3;
+  cursor: pointer;
 }
 
 /* ALARM */
 #stopAlarmBtn {
-  margin-top: 18px;
-  padding: 10px 18px;
-  border-radius: 14px;
+  margin-top: 20px;
+  padding: 10px 20px;
+  border-radius: 20px;
   border: none;
-  background: #ff5c5c;
-  color: white;
   cursor: pointer;
+  background: #ff6b6b;
+  color: white;
+  font-weight: 600;
 }
 
 /* UTIL */
