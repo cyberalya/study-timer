@@ -2,16 +2,22 @@
 const timerEl = document.getElementById("timer");
 const modeContainer = document.getElementById("modeContainer");
 const controlContainer = document.getElementById("controlContainer");
+const stopBtn = document.getElementById("stopBtn");
 const resetBtn = document.getElementById("resetBtn");
 
 const currentSongEl = document.getElementById("currentSong");
-const queueListEl = document.getElementById("queueList");
 const queueContainer = document.getElementById("queueContainer");
+const queueListEl = document.getElementById("queueList");
+
+const addSongBtn = document.getElementById("addSongBtn");
+const musicInput = document.getElementById("musicInput");
+
 const stopAlarmBtn = document.getElementById("stopAlarmBtn");
 
 // ================== TIMER ==================
 let duration = 25 * 60;
 let interval = null;
+let isPaused = false;
 let wasMusicPlaying = false;
 
 function updateDisplay() {
@@ -21,31 +27,42 @@ function updateDisplay() {
 }
 
 document.querySelectorAll(".mode-btn").forEach(btn => {
-  btn.addEventListener("click", () => {
+  btn.onclick = () => {
     duration = btn.dataset.time * 60;
     updateDisplay();
+    isPaused = false;
+    stopBtn.textContent = "Stop";
     modeContainer.style.display = "none";
     controlContainer.style.display = "flex";
     startTimer();
-  });
+  };
 });
 
 function startTimer() {
   clearInterval(interval);
   interval = setInterval(() => {
-    duration--;
-    updateDisplay();
-    if (duration <= 0) {
-      clearInterval(interval);
-      timeUp();
+    if (!isPaused) {
+      duration--;
+      updateDisplay();
+      if (duration <= 0) {
+        clearInterval(interval);
+        timeUp();
+      }
     }
   }, 1000);
 }
+
+stopBtn.onclick = () => {
+  isPaused = !isPaused;
+  stopBtn.textContent = isPaused ? "Resume" : "Stop";
+};
 
 resetBtn.onclick = () => {
   clearInterval(interval);
   duration = 25 * 60;
   updateDisplay();
+  isPaused = false;
+  stopBtn.textContent = "Stop";
   modeContainer.style.display = "flex";
   controlContainer.style.display = "none";
 };
@@ -87,42 +104,31 @@ stopAlarmBtn.onclick = () => {
 // ================== MUSIC ==================
 let queue = [];
 let currentIndex = -1;
-
 const music = new Audio();
-music.addEventListener("ended", nextSong);
 
-// === ADD SONG BUTTON (AUTO CREATE, AMAN) ===
-const addBtn = document.createElement("button");
-addBtn.textContent = "+ Add Song";
-addBtn.style.marginTop = "10px";
+music.onended = nextSong;
 
-const fileInput = document.createElement("input");
-fileInput.type = "file";
-fileInput.accept = "audio/*";
-fileInput.hidden = true;
+addSongBtn.onclick = () => musicInput.click();
 
-document.querySelector(".music-container").appendChild(addBtn);
-document.querySelector(".music-container").appendChild(fileInput);
+musicInput.onchange = () => {
+  const files = [...musicInput.files];
 
-addBtn.onclick = () => fileInput.click();
-
-fileInput.onchange = (e) => {
-  const file = e.target.files[0];
-  if (!file) return;
-
-  queue.push({
-    name: file.name,
-    url: URL.createObjectURL(file)
+  files.forEach(file => {
+    queue.push({
+      name: file.name,
+      url: URL.createObjectURL(file)
+    });
   });
 
-  if (currentIndex === -1) {
+  if (currentIndex === -1 && queue.length > 0) {
     playSong(0);
   } else {
     renderQueue();
   }
+
+  musicInput.value = "";
 };
 
-// ================== MUSIC CONTROL ==================
 function playSong(index) {
   if (!queue[index]) return;
   currentIndex = index;
@@ -156,14 +162,48 @@ document.getElementById("queueToggle").onclick = () => {
   queueContainer.classList.toggle("hidden");
 };
 
-// ================== QUEUE ==================
+// ================== QUEUE + DELETE ==================
+function deleteSong(index) {
+  if (index === currentIndex) {
+    music.pause();
+  }
+
+  queue.splice(index, 1);
+
+  if (queue.length === 0) {
+    currentIndex = -1;
+    music.src = "";
+    currentSongEl.textContent = "No song playing";
+  } else if (index < currentIndex) {
+    currentIndex--;
+  } else if (index === currentIndex) {
+    currentIndex = currentIndex % queue.length;
+    playSong(currentIndex);
+  }
+
+  renderQueue();
+}
+
 function renderQueue() {
   queueListEl.innerHTML = "";
   queue.forEach((song, i) => {
     const li = document.createElement("li");
-    li.textContent = song.name;
-    if (i === currentIndex) li.style.fontWeight = "bold";
-    li.onclick = () => playSong(i);
+    li.className = i === currentIndex ? "active" : "";
+
+    const title = document.createElement("span");
+    title.textContent = song.name;
+    title.onclick = () => playSong(i);
+
+    const del = document.createElement("button");
+    del.textContent = "❌";
+    del.style.marginLeft = "8px";
+    del.onclick = (e) => {
+      e.stopPropagation();
+      deleteSong(i);
+    };
+
+    li.appendChild(title);
+    li.appendChild(del);
     queueListEl.appendChild(li);
   });
 }
