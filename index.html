@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Study Timer</title>
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="app">
+
+    <!-- TIMER UTAMA -->
+    <div class="timer-container">
+      <div id="timer" class="timer">25:00</div>
+    </div>
+
+    <!-- OPSI DURASI (FOCUS & BREAK) -->
+    <div class="mode-container" id="modeContainer">
+      <button class="mode-btn active" data-time="15">Focus 15</button>
+      <button class="mode-btn" data-time="20">Focus 20</button>
+      <button class="mode-btn" data-time="25">Focus 25</button>
+      <button class="mode-btn break" data-time="5">Short Break</button>
+      <button class="mode-btn break" data-time="15">Long Break</button>
+    </div>
+
+    <!-- CONTROL TIMER (HIDDEN / SWAP NANTI) -->
+    <div class="control-container" id="controlContainer">
+      <button id="startBtn">Start</button>
+      <button id="resetBtn">Reset</button>
+    </div>
+
+    <!-- MUSIC PLAYER -->
+    <div class="music-container">
+      <div class="now-playing">
+        🎵 <span id="currentSong">No song playing</span>
+      </div>
+
+      <div class="music-controls">
+        <button id="prevSong">⏮</button>
+        <button id="playPause">▶</button>
+        <button id="nextSong">⏭</button>
+        <button id="queueToggle">☰</button>
+      </div>
+    </div>
+
+    <!-- QUEUE (HIDDEN) -->
+    <div class="queue-container hidden" id="queueContainer">
+      <ul id="queueList">
+        <!-- lagu antrian nanti di sini -->
+      </ul>
+    </div>
+
+    <!-- ALARM BUTTON (HIDDEN) -->
+    <button id="stopAlarmBtn" class="hidden">Matikan Alarm</button>
+
+  </div>
+
+  <!-- JS -->
+  <script src="script.js"></script>
+</body>
+</html>
